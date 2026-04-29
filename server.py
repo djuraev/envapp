@@ -302,6 +302,8 @@ def resolve_color(val):
 
 
 def render_value(key, val):
+    if not val:
+        return '<span class="val-cell" style="color:#94a3b8;font-style:italic">not set</span>'
     safe = html_escape(val)
 
     # color → swatch button
@@ -346,8 +348,13 @@ def feature_chips():
                    for f in val.split(",") if f.strip())
 
 
+ALWAYS_SHOW = ("DB_PASSWORD", "API_KEY")
+
+
 def build_rows():
     items = {k: v for k, v in os.environ.items() if k.startswith(SHOW_PREFIXES)}
+    for k in ALWAYS_SHOW:
+        items.setdefault(k, "")
     if not items:
         return ('<tr><td colspan="2"><div class="empty">'
                 '<div class="big">📭</div>'

@@ -20,21 +20,15 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        env:
-        - name: APP_ENV
-          value: "production"
-        - name: APP_VERSION
-          value: "1.0"
-        - name: APP_COLOR
-          value: "blue"
-        - name: DB_HOST
-          value: "8.8.8.8"
-        - name: DB_PORT
-          value: "90685"
-        - name: DB_NAME
-          value: "mongo-db"
-        - name: FEATURE_FLAGS
-          value: "dark-mode,new-dashboard"
+        envFrom:
+        - configMapRef:
+            name: app-config      
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 10
         resources:
           requests:
             memory: "32Mi"
