@@ -1,0 +1,5 @@
+APP_ENV=production
+APP_COLOR=blue
+DB_HOST=postgres.internal
+DB_PORT=5432
+FEATURE_FLAGS=dark-mode
